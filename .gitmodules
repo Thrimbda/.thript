@@ -1,0 +1,3 @@
+[submodule "scheme/srfi"]
+	path = scheme/srfi
+	url = https://github.com/arcfide/chez-srfi.git

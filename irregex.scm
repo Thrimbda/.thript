@@ -244,7 +244,7 @@
          (cnk (irregex-match-chunker m))
          (get-subchunk (chunker-get-subchunk cnk)))
     (if (not get-subchunk)
-        (error "this chunk type does not support match subchunks")
+        (error 'irregex-match-subchunk "this chunk type does not support match subchunks")
         (and n (get-subchunk
                 (%irregex-match-start-chunk m n)
                 (%irregex-match-start-index m n)
@@ -283,7 +283,7 @@
          (get-subchunk (and (pair? o) (car o))))
     (if (not (and (procedure? get-next) (procedure? get-str)
                   (procedure? get-start) (procedure? get-substr)))
-        (error "make-irregex-chunker: expected a procdure"))
+        (error 'make-irregex-chunker "make-irregex-chunker: expected a procdure"))
     (vector get-next get-str get-start get-end get-substr get-subchunk)))
 
 (define (chunker-get-next cnk) (vector-ref cnk 0))
@@ -941,7 +941,7 @@
                  (let ((res (collect/single)))
                    (cond
                     ((null? res)
-                     (error "{ can't follow empty pattern"))
+                     (error 'collect/terms "{ can't follow empty pattern"))
                     (else
                      (let* ((x (car res))
                             (tail (cdr res))
@@ -1159,7 +1159,7 @@
                      (eqv? #\] (string-ref str (+ i 1))))
                  (go (+ i 1) c (cset-adjoin cset c)))
                 ((not prev-char)
-                 (error "bad char-set"))
+                 (error 'go "bad char-set"))
                 (else
                  (let ((char (string-ref str (+ i 1))))
                    (apply
