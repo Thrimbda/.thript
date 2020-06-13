@@ -1,4 +1,4 @@
-#! /usr/local/bin/scheme --script
+#! /usr/bin/scheme --script
 
 ;; load dependency irrgex to support regex.
 (load "irregex.scm")
@@ -14,7 +14,7 @@
 (define (coord-reverse normal-coord)
   (let ((groups (irregex-extract pattern normal-coord)))
     (if (= (length groups) 2)
-        (string-join groups ",")
+        (string-join groups ", ")
         '())))
 
 (define (main)
