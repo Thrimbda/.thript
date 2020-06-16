@@ -1,0 +1,8 @@
+#! /usr/bin/scheme --script
+(import (tools misc)
+        (tools cli))
+;;; kbm is keyboard mappinp for short.
+(define (main)
+  (with-command "xmodmap" "./linux/xmodmap.colemak"))
+
+(main)
