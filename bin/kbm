@@ -3,6 +3,6 @@
         (tools cli))
 ;;; kbm is keyboard mappinp for short.
 (define (main)
-  (with-command "xmodmap" "./linux/xmodmap.colemak"))
+  (with-command "xmodmap" "~/.thript/linux/xmodmap.colemak"))
 
 (main)
