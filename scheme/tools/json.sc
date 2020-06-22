@@ -23,7 +23,7 @@
 
 
 
-(library (json json)
+(library (tools json)
   (export
     string->json
     json->string
@@ -35,7 +35,7 @@
   )
   (import
     (scheme)
-    (only (core alist) vector->alist)
+    (only (tools core alist) vector->alist)
   )
  
 

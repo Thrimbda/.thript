@@ -25,7 +25,7 @@
 
 
 
-(library (core alist)
+(library (tools core alist)
     (export
         ref
         val
