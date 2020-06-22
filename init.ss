@@ -6,8 +6,9 @@
 (system "export CHEZSCHEMELIBDIRS=~/.thript/scheme")
 
 ;; make chez libraries
-(system "cd scheme")
+(cd "scheme")
 (include "chez-make.ss")
+(cd "..")
 
 ;;---------------------------------------- init ---------------------------------------
 
