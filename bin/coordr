@@ -1,4 +1,4 @@
-#! /usr/bin/scheme --script
+#! /usr/bin/env -S scheme --script
 
 ;; load dependency irrgex to support regex.
 (import (irregex))

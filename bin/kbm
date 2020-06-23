@@ -1,4 +1,4 @@
-#! /usr/bin/scheme --script
+#! /usr/bin/env -S scheme --script
 (import (tools misc)
         (tools cli))
 ;;; kbm is keyboard mappinp for short.

@@ -1,4 +1,5 @@
-#!/usr/bin/scheme --script
+#!/usr/bin/env -S scheme --script
+;;#!/usr/bin/scheme --script
 
 ;;---------------------------------------- meta ---------------------------------------
 
