@@ -4,11 +4,12 @@
 ;;---------------------------------------- meta ---------------------------------------
 
 ;; set chezscheme path
-(system "export CHEZSCHEMELIBDIRS=~/.thript/scheme")
+(define thript "~/.thript")
+(system (format "export CHEZSCHEMELIBDIRS=~a/scheme" thript))
 
 ;; make chez libraries
 (define pwd (current-directory))
-(cd "~/.thript/scheme")
+(cd (format "~a/scheme" thript))
 (include "chez-make.ss")
 (cd pwd)
 
@@ -18,15 +19,27 @@
 
 ;; make srfi link, but now it can only work in the repo's directory.
 (define (make-srfi)
-  (with-command "git" "submodule update --init")
-  (run-silent "./scheme/srfi/link-dirs.chezscheme.sps"))
+  (with-command "git" "submodule update --init scheme/srfi")
+  (run-silent "./scheme/srfi/link-dirs.chezscheme.sps" ))
 
-(define (make-symbolic-link)
+(define (make-tmux-conf)
+  (with-command "git" "submodule update --init tmux/oh-my-tmux")
+  (with-command "ln" "-s ~/.thript/tmux/oh-my-tmux/.tmux.conf ~/.tmux.conf")
+  (with-command "ln" "-s ~/.thript/tmux/.tmux.conf.local ~/.tmux.conf.local"))
+
+(define (make-vim-conf)
+  (with-command "git" "submodule update --init vim/vim_runtime")
+  (with-command "sh" "vim/vim_runtime/install_awesome_parameterized.sh vim/vim_runtime")
+
+(define (make-git-conf)
   (with-command "ln" "-s ~/.thript/git/.gitignore ~/.gitignore")
   (with-command "ln" "-s ~/.thript/git/.gitconfig ~/.gitconfig"))
 
 (define (main)
+  (cd thript)
   (make-srfi)
-  (make-symbolic-link))
+  (make-tmux-conf)
+  (make-git-conf)
+  (cd pwd))
 
 (main)

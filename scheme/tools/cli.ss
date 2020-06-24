@@ -24,7 +24,7 @@
   ;; denotes 
   (define (with-command command . args)
     (if (command-exist? command)
-        (run-silent (string-append command " " (string-join args " ")))
+        (system (string-append command " " (string-join args " ")))
         (error 'with-command (format "Error: ~s is not installed" command))))
 
   (define ls
