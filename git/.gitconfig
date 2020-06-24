@@ -19,3 +19,5 @@
 	required = true
 [pull]
 	ff = only
+[credential]
+	helper = store

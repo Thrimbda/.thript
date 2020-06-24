@@ -7,9 +7,10 @@
 (system "export CHEZSCHEMELIBDIRS=~/.thript/scheme")
 
 ;; make chez libraries
-(cd "scheme")
+(define pwd (current-directory))
+(cd "~/.thript/scheme")
 (include "chez-make.ss")
-(cd "..")
+(cd pwd)
 
 ;;---------------------------------------- init ---------------------------------------
 
@@ -20,7 +21,12 @@
   (with-command "git" "submodule update --init")
   (run-silent "./scheme/srfi/link-dirs.chezscheme.sps"))
 
+(define (make-symbolic-link)
+  (with-command "ln" "-s ~/.thript/git/.gitignore ~/.gitignore")
+  (with-command "ln" "-s ~/.thript/git/.gitconfig ~/.gitconfig"))
+
 (define (main)
-  (make-srfi))
+  (make-srfi)
+  (make-symbolic-link))
 
 (main)
