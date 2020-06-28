@@ -3,6 +3,7 @@
     run-silent
     command-exist?
     with-command
+    rm
     ls
     ll)
   (import (chezscheme) (tools misc))
@@ -26,6 +27,20 @@
     (if (command-exist? command)
         (system (string-append command " " (string-join args " ")))
         (error 'with-command (format "Error: ~s is not installed" command))))
+
+  (define (rm path)
+    (cond
+      [(not (string? path)) (error 'rm (format "~s is not a string" path))]
+      [(file-exists? path) #f]
+      [(file-directory? path)
+       (let [(subs (map (lambda (sub-path) (string-append path sub-path)) (ls path)))]
+         ;; for-each or map? should we abort when met a failure?
+         (for-each rm subs)
+         (delete-directory path)
+         #t)]
+      [(file-regular? path)
+       (delete-file path)
+       #t]))
 
   (define ls
     (case-lambda
