@@ -6,4 +6,4 @@
 	url = https://github.com/Thrimbda/.tmux.git
 [submodule "vim/vim_runtime"]
 	path = vim/vim_runtime
-	url = https://github.com/amix/vimrc.git
+	url = https://github.com/Thrimbda/vimrc.git

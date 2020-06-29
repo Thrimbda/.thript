@@ -17,6 +17,11 @@
 
 (import (tools cli))
 
+(define (get-user)
+  (call-with-values
+    (lambda () (open-process-ports "echo $USER" 'block (native-transcoder)))
+    (lambda (stdin stdout stderr pid) (get-line stdout))))
+
 ;; make srfi link, but now it can only work in the repo's directory.
 (define (make-srfi)
   (with-command "git" "submodule update --init scheme/srfi")
@@ -29,7 +34,8 @@
 
 (define (make-vim-conf)
   (with-command "git" "submodule update --init vim/vim_runtime")
-  (with-command "sh" "vim/vim_runtime/install_awesome_parameterized.sh vim/vim_runtime"))
+  (system (format "./vim/vim_runtime/install_awesome_parameterized.sh vim/vim_runtime ~a" (get-user)))
+  (with-command "ln" "-s ~/.thript/vim/init.vim ~/.config/nvim/init.vim"))
 
 (define (make-git-conf)
   (with-command "ln" "-s ~/.thript/git/.gitignore ~/.gitignore")
@@ -55,6 +61,7 @@
   (make-srfi)
   (make-irregex)
   (make-tmux-conf)
+  (make-vim-conf)
   (make-git-conf)
   (cd pwd))
 
