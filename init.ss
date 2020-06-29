@@ -39,7 +39,7 @@
         (rm "~/.vimrc.back")
         (rename-file "~/.vimrc" "~/.vimrc.back"))
       (void))
-  (system (format "./vim/vim_runtime/install_awesome_parameterized.sh vim/vim_runtime ~a" (get-user)))
+  (system (format "./vim/vim_runtime/install_awesome_parameterized.sh ~a/vim/vim_runtime ~a" thript (get-user)))
   (with-command "ln" "-s ~/.thript/vim/init.vim ~/.config/nvim/init.vim"))
 
 (define (make-git-conf)
