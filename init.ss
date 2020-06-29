@@ -34,6 +34,11 @@
 
 (define (make-vim-conf)
   (with-command "git" "submodule update --init vim/vim_runtime")
+  (if (file-exists? "~/.vimrc")
+      (begin 
+        (rm "~/.vimrc.back")
+        (rename-file "~/.vimrc" "~/.vimrc.back"))
+      (void))
   (system (format "./vim/vim_runtime/install_awesome_parameterized.sh vim/vim_runtime ~a" (get-user)))
   (with-command "ln" "-s ~/.thript/vim/init.vim ~/.config/nvim/init.vim"))
 
@@ -46,11 +51,12 @@
   (let [(pwd (cd))]
     (if (= 0 (with-command "curl" "-LO http://synthcode.com/scheme/irregex/irregex-0.9.7.tar.gz"))
         (begin
-          (with-command "tar" "-zxvf irregex-0.9.7.tar.gz")
           (rm "irregex")
+          (with-command "tar" "-zxvf irregex-0.9.7.tar.gz")
           (rename-file "irregex-0.9.7" "irregex")
           (cd "irregex")
           (system "make chez-build")
+          (rm "../scheme/irregex.chezscheme.so")
           (rename-file "irregex.chezscheme.so" "../scheme/irregex.chezscheme.so")
           (cd pwd)
           (rm "irregex")

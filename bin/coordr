@@ -1,4 +1,4 @@
-#! /usr/bin/env -S scheme --script
+#! /usr/bin/scheme --script
 
 ;; load dependency irrgex to support regex.
 (import (irregex))
@@ -7,10 +7,15 @@
 (define pattern 
   (irregex "([0-9]+(?:.[0-9]+)?)" 'fast))
 
+; (define (string-join strings dim)
+;   (define (func acc curr)
+;     (string-append (string-append acc dim) curr))
+;   (fold-right func (car strings) (cdr strings)))
+
 (define (coord-reverse normal-coord)
   (let ((groups (irregex-extract pattern normal-coord)))
     (if (= (length groups) 2)
-        (string-append (string-join groups ", ") "\n")
+        (string-append (string-join (reverse groups) ", ") "\n")
         (error 'coord-reverse (string-append "invalid coordinate" normal-coord)))))
 
 (define (main)
