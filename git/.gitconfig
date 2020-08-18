@@ -21,3 +21,9 @@
 	ff = only
 [credential]
 	helper = store
+[gpg]
+    program = gpg
+[diff]
+    tool = vscode
+[difftool "vscode"]
+    cmd = "code --wait --diff"
