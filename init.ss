@@ -29,6 +29,7 @@
 
 (define (make-tmux-conf)
   (with-command "git" "submodule update --init tmux/oh-my-tmux")
+  (with-command "git" "clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm")
   (with-command "ln" "-s ~/.thript/tmux/oh-my-tmux/.tmux.conf ~/.tmux.conf")
   (with-command "ln" "-s ~/.thript/tmux/.tmux.conf.local ~/.tmux.conf.local"))
 
