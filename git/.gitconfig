@@ -11,7 +11,7 @@
     lg = !"git lg1"
 [core]
     excludesfile = /home/thrimbda/.gitignore
-    editor = nvim
+    editor = vim
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f

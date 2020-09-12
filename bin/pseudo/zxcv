@@ -1,0 +1,31 @@
+#! /usr/bin/env -S scheme --script
+
+; for MacOS, there are a built in Colemak solution thus no need of this.
+(define file (open-input-file "~/.thript/resources/keats.txt"))
+
+(define (get-number-lines path)
+  (let ([textual-port (open-input-file path)])
+    (letrec ([loop (lambda (line)
+                     (if (port-eof? textual-port)
+                         line
+                         (begin (get-line textual-port)
+                                (loop (+ line 1)))))])
+      (loop 0))))
+
+(define (get-nth-line path n)
+  (let ([textual-port (open-input-file path)])
+    (letrec ([loop (lambda (line)
+                     (if (= n line)
+                         (get-line textual-port)
+                         (begin (get-line textual-port)
+                                (loop (+ line 1)))))])
+      (loop 0))))
+
+(define (main)
+  (let* ([file-path "~/.thript/resources/keats.txt"]
+         [lines (get-number-lines file-path)]
+         [line-to-print (random lines)])
+    (display (get-nth-line file-path line-to-print))))
+
+(main)
+
