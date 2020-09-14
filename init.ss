@@ -1,4 +1,4 @@
-#!/usr/bin/env -S scheme --script --libdirs "~/.thript/scheme"
+#!/usr/bin/env -S scheme --libdirs "~/.thript/scheme" --script
 ;;#!/usr/bin/scheme --script
 
 ;;---------------------------------------- meta ---------------------------------------
