@@ -617,6 +617,12 @@ before packages are loaded."
   (spacemacs/set-leader-keys "op" 'projectile-add-known-project)
   (setq save-interprogram-paste-before-kill t)
   (setq x-select-enable-clipboard nil)
+
+  ;; make macos title bar transparent
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+
+  ;; disable evil in vterm
+  (evil-set-initial-state 'vterm-mode 'emacs)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
