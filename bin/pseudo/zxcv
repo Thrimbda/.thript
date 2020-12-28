@@ -1,8 +1,7 @@
 #! /usr/bin/env -S scheme --script
 
 ; for MacOS, there are a built in Colemak solution thus no need of this.
-(define file (open-input-file "~/.thript/resources/keats.txt"))
-
+; instead, let's do something fun when user invoke this lil script.
 (define (get-number-lines path)
   (let ([textual-port (open-input-file path)])
     (letrec ([loop (lambda (line)
@@ -21,11 +20,14 @@
                                 (loop (+ line 1)))))])
       (loop 0))))
 
+; it was always the same seed when I invoke the script somehow
+(random-seed (real-time))
+
 (define (main)
   (let* ([file-path "~/.thript/resources/keats.txt"]
          [lines (get-number-lines file-path)]
          [line-to-print (random lines)])
-    (display (get-nth-line file-path line-to-print))))
+    (display (format "~a\n" (get-nth-line file-path line-to-print)))))
 
 (main)
 
