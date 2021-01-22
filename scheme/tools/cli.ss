@@ -22,7 +22,7 @@
   (define (command-exist? command)
     (not (eq? (run-silent command) 127)))
 
-  ;; denotes 
+  ;; denotes
   (define (with-command command . args)
     (if (command-exist? command)
         (system (string-append command " " (string-join args " ")))
@@ -31,7 +31,7 @@
   (define (rm path)
     (cond
       [(not (string? path)) (error 'rm (format "~s is not a string" path))]
-      [(not (file-exists? path)) 
+      [(not (file-exists? path))
        (begin
          (display (format "~a does not exists\n" path))
          #f)]

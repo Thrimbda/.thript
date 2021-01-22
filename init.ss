@@ -33,10 +33,19 @@
   (with-command "ln" "-s ~/.thript/tmux/oh-my-tmux/.tmux.conf ~/.tmux.conf")
   (with-command "ln" "-s ~/.thript/tmux/.tmux.conf.local ~/.tmux.conf.local"))
 
+(define (connect-yas)
+  (let [(paths (ls "~/.thript/yasnippets/"))]
+    (for-each (lambda (path)
+                (let [(real-path (format "~~/.thript/yasnippets/~a" path))]
+                  (begin
+                    (cd "~/.emacs.d/private/snippets")
+                    (with-command "ln" (format "-s ~a ~a" real-path path)))))
+              paths)))
+
 (define (make-vim-conf)
   (with-command "git" "submodule update --init vim/vim_runtime")
   (if (file-exists? "~/.vimrc")
-      (begin 
+      (begin
         (rm "~/.vimrc.back")
         (rename-file "~/.vimrc" "~/.vimrc.back"))
       (void))
@@ -74,4 +83,5 @@
   (make-git-conf)
   (cd pwd))
 
-(main)
+;; (main)
+(connect-yas)
