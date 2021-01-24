@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: ledger expense
+# key: /expense
+# --
+#+name: expense
+#+begin_src ledger :noweb yes
+`(format-time-string "%Y-%m-%d")` * ${1:Item name}
+    Expenses:${2:Category}                                      ${3:amount} CNY
+    Assets:${4:China Merchant Bank}
+#+end_src

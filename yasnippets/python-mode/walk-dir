@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: walk_dir
+# key: wd
+# --
+def walk_dir(dir: Path, work: Callable[[Path], Any], cond: Callable[[Path], bool]) -> Iterable[Any]:
+    """a lazy function will not do anything until a decent for loop was applied"""
+
+    def work_path(path: Path) -> Iterable[Any]:
+        if path.is_dir():
+            yield from walk_dir(path, work, cond)
+        elif cond(path):
+            yield work(path)
+
+    yield from (
+        result
+        for path in dir.iterdir()
+        for result in work_path(path)
+    )
+
