@@ -64,7 +64,9 @@ This function should only modify configuration layer settings."
      emacs-lisp
      (go :variables
          go-backend 'lsp
-         go-tab-width 4)
+         go-tab-width 4
+         go-use-golangci-lint t
+         go-format-before-save t)
      lua
      markdown
      (python :variables
@@ -561,6 +563,58 @@ dump."
      (python . t)
      (shell . t)))
 
+  (setq org-agenda-files '("~/OneDrive/cone/refile.org" "~/OneDrive/cone/work.org"))
+  (setq org-export-backends '(ascii html icalendar latex md odt))
+  (setq org-todo-keyword-faces '(("TODO" . "red")
+                                 ("NEXT" . "blue")
+                                 ("DONE" . "forest green")
+                                 ("WAITING" . "orange")
+                                 ("HOLD" . "magenta")
+                                 ("CANCELLED" . "forest green")))
+  (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                            (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLD(c@/!)")))
+  (setq org-todo-state-tags-triggers '(("CANCELLED"
+                                        ("CANCELLED" . t))
+                                       ("WAITING"
+                                        ("WAITING" . t))
+                                       ("HOLD"
+                                        ("WAITING")
+                                        ("HOLD" . t))
+                                       (done
+                                        ("WAITING")
+                                        ("HOLD"))
+                                       ("TODO"
+                                        ("WAITING")
+                                        ("CANCELLED")
+                                        ("HOLD"))
+                                       ("NEXT"
+                                        ("WAITING")
+                                        ("CANCELLED")
+                                        ("HOLD"))
+                                       ("DONE"
+                                        ("WAITING")
+                                        ("CANCELLED")
+                                        ("HOLD"))))
+  (setq org-capture-templates
+        '(("t" "todo" entry (file "~/OneDrive/cone/refile.org")
+           "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+          ("r" "respond" entry (file "~/OneDrive/cone/refile.org")
+           "* NEXT Respond to %:from on %:subject\n SCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+          ("r" "respond" entry (file "~/git/org/refile.org")
+           "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+          ("n" "note" entry (file "~/git/org/refile.org")
+           "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+          ("j" "Journal" entry (file+datetree "~/git/org/diary.org")
+           "* %?\n%U\n" :clock-in t :clock-resume t)
+          ("w" "org-protocol" entry (file "~/git/org/refile.org")
+           "* TODO Review %c\n%U\n" :immediate-finish t)
+          ("m" "Meeting" entry (file "~/git/org/refile.org")
+           "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+          ("p" "Phone call" entry (file "~/git/org/refile.org")
+           "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+          ("h" "Habit" entry (file "~/git/org/refile.org")
+           "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")))
+
   ;; Yas
   (add-hook 'yas-minor-mode-hook (lambda ()
                                    (yas-activate-extra-mode 'fundamental-mode)))
@@ -707,41 +761,6 @@ This function is called at the very end of Spacemacs initialization."
      ("FIXME" . "#dc752f")
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f")))
- '(org-agenda-files '("~/OneDrive/cone/work.org"))
- '(org-export-backends '(ascii html icalendar latex md odt))
- '(org-todo-keyword-faces
-   '(("TODO" . "red")
-     ("NEXT" . "blue")
-     ("DONE" . "forest green")
-     ("WAITING" . "orange")
-     ("HOLD" . "magenta")
-     ("CANCELLED" . "forest green")))
- '(org-todo-keywords
-   '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-     (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLD(c@/!)")))
- '(org-todo-state-tags-triggers
-   '(("CANCELLED"
-      ("CANCELLED" . t))
-     ("WAITING"
-      ("WAITING" . t))
-     ("HOLD"
-      ("WAITING")
-      ("HOLD" . t))
-     (done
-      ("WAITING")
-      ("HOLD"))
-     ("TODO"
-      ("WAITING")
-      ("CANCELLED")
-      ("HOLD"))
-     ("NEXT"
-      ("WAITING")
-      ("CANCELLED")
-      ("HOLD"))
-     ("DONE"
-      ("WAITING")
-      ("CANCELLED")
-      ("HOLD"))))
  '(package-selected-packages
    '(flycheck-ledger evil-ledger ledger-mode web-beautify tern prettier-js nodejs-repl livid-mode skewer-mode js2-refactor multiple-cursors js2-mode js-doc import-js grizzl impatient-mode simple-httpd add-node-modules-path kubernetes-tramp kubernetes-evil kubernetes nov esxml yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope xcscope cython-mode blacken anaconda-mode pythonic treemacs-all-the-icons company-lua lua-mode vi-tilde-fringe lsp-ui lsp-origami origami helm-lsp ox-gfm helm-gtags godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc ggtags flycheck-golangci-lint dap-mode lsp-treemacs bui lsp-mode cfrs posframe dash-functional counsel-gtags counsel swiper ivy company-go go-mode yasnippet-snippets unfill mwim helm-company helm-c-yasnippet fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete xkcd treemacs-magit smeargle orgit magit-svn magit-section magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link forge ghub closql emacsql-sqlite emacsql treepy evil-magit magit git-commit with-editor transient org-rich-yank org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-cliplink org-brain htmlize helm-org-rifle gnuplot evil-org doom-themes doom-modeline shrink-path xterm-color vterm terminal-here shell-pop multi-term eshell-z eshell-prompt-extras esh-help yaml-mode vmd-mode mmm-mode markdown-toc markdown-mode gh-md emoji-cheat-sheet-plus company-emoji company ws-butler writeroom-mode visual-fill-column winum volatile-highlights valign uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons all-the-icons memoize spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils pkg-info epl elisp-slime-nav editorconfig dumb-jump dash s dired-quick-sort devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg dotenv-mode diminish bind-map bind-key async))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e")))
