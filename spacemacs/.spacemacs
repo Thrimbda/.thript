@@ -12,7 +12,6 @@ This function should only modify configuration layer settings."
    dotspacemacs-distribution 'spacemacs
 
    ;; Lazy installation of layers (i.e. layers are installed only when a file
-   ;; with a supported type is opened). Possible values are `all', `unused'
    ;; and `nil'. `unused' will lazy install only unused layers (i.e. layers
    ;; not listed in variable `dotspacemacs-configuration-layers'), `all' will
    ;; lazy install any layer that support lazy installation even the layers
@@ -709,6 +708,7 @@ dump."
                          (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
                          (org-tags-match-list-sublevels nil))))
                  nil))))
+  (spacemacs/set-leader-keys "oi" 'helm-org-agenda-files-headings)
 
   (defun bh/verify-refile-target ()
     "Exclude todo keywords with a done state from refile targets"
