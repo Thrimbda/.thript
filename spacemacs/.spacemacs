@@ -554,6 +554,9 @@ dump."
   ;; ledger
   (setq ledger-post-amount-alignment-column 72)
 
+  ;; evil related
+  (evil-ex-define-cmd "q" 'kill-this-buffer)
+
   ;; org
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -572,9 +575,11 @@ dump."
                                  ("DONE" . "forest green")
                                  ("WAITING" . "orange")
                                  ("HOLD" . "magenta")
-                                 ("CANCELLED" . "forest green")))
+                                 ("CANCELLED" . "forest green")
+                                 ("MEETING" . "forest green")
+                                 ("PHONE" . "forest green")))
   (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-                            (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLD(c@/!)")))
+                            (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLD(c@/!)" "PHONE" "MEETING")))
   (setq org-todo-state-tags-triggers '(("CANCELLED"
                                         ("CANCELLED" . t))
                                        ("WAITING"
@@ -601,7 +606,7 @@ dump."
   (setq org-directory "~/OneDrive/cone")
   (setq org-default-notes-file "~/OneDrive/cone/refile.org")
 
-  (setq org-capture-template 
+  (setq org-capture-templates
         '(("t" "todo" entry (file "~/OneDrive/cone/refile.org")
            "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
           ("r" "respond" entry (file "~/OneDrive/cone/refile.org")
@@ -609,7 +614,7 @@ dump."
           ("n" "note" entry (file "~/OneDrive/cone/refile.org")
            "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
           ("j" "Journal" entry (file+datetree "~/OneDrive/cone/diary.org")
-           "* %?\n%U\n" :clock-in t :clock-resume t qq
+           "* %?\n%U\n" :clock-in t :clock-resume t)
           ("w" "org-protocol" entry (file "~/OneDrive/cone/refile.org")
            "* TODO Review %c\n%U\n" :immediate-finish t)
           ("m" "Meeting" entry (file "~/OneDrive/cone/refile.org")
@@ -617,7 +622,7 @@ dump."
           ("p" "Phone call" entry (file "~/OneDrive/cone/refile.org")
            "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
           ("h" "Habit" entry (file "~/OneDrive/cone/refile.org")
-           "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+           "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")))
 
   ; Targets include this file
   (setq org-refile-targets '((nil :maxlevel . 9)
@@ -712,6 +717,7 @@ dump."
   (spacemacs/set-leader-keys "oh" 'helm-org-agenda-files-headings)
   (spacemacs/set-leader-keys "oi" 'bh/punch-in)
   (spacemacs/set-leader-keys "oo" 'bh/punch-out)
+  (spacemacs/set-leader-keys "oc" 'bh/clock-in-last-task)
 
   (defun bh/verify-refile-target ()
     "Exclude todo keywords with a done state from refile targets"
@@ -721,7 +727,7 @@ dump."
     (interactive)
     (save-excursion
       (beginning-of-line 0)
-      (org-remove-empty-drawer-at "LOGBOOK" (point))))
+      (org-remove-empty-drawer-at (point))))
 
   (add-hook 'org-clock-out-hook 'bh/remove-empty-darwer-on-clock-out 'append)
 
@@ -817,7 +823,7 @@ Switch projects and subprojects from NEXT back to TODO"
             (when bh/keep-clock-running
               (bh/clock-in-default-task)))))))
 
-  (defvar bh/organization-task-id "eb155a82-92b2-4f25-a3c6-0304591af2f9")
+  (defvar bh/organization-task-id "3CA66213-50ED-48B9-8E24-310B0959DA75")
 
   (defun bh/clock-in-organization-task-as-default ()
     (interactive)
