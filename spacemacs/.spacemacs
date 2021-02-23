@@ -556,6 +556,9 @@ dump."
   ;; ledger
   (setq ledger-post-amount-alignment-column 72)
 
+  ;; Chinese char
+  (spacemacs//set-monospaced-font "FiraCode Nerd Font" "Hiragino Sans GB" 12 14)
+
   ;; evil related
   (evil-ex-define-cmd "q" 'kill-this-buffer)
 
@@ -1142,6 +1145,18 @@ A prefix arg forces clock in of the default task."
       (if (bh/is-subproject-p)
           nil
         next-headline)))
+
+  ;; org time reporting
+  (setq org-clock-out-remove-zero-time-clocks t)
+  ;; Agenda clock report parameters
+  (setq org-agenda-clockreport-parameter-plist
+        (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
+  ;; Set default column view headings: Task Effort Clock_Summary
+  (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
+  (setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+                                      ("STYLE_ALL" . "habit"))))
+  ;; Agenda log mode items to display (closed and state changes by default)
+  (setq org-agenda-log-mode-items (quote (closed state)))
 
   ;; org Archived tasks
   (setq org-archive-mark-done nil)
