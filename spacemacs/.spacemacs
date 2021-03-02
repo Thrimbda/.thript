@@ -102,7 +102,9 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(
+                                      ob-ammonite
+                                      ammonite-term-repl)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -554,6 +556,10 @@ dump."
   )
 
 (defun dotspacemacs/user-config ()
+
+  ;; ammonite
+  (setq ammonite-term-repl-auto-detect-predef-file nil)
+
   ;; ledger
   (setq ledger-post-amount-alignment-column 72)
 
@@ -570,6 +576,7 @@ dump."
      (emacs-lisp . t)
      (ledger . t)
      (python . t)
+     (ammonite . t)
      (shell . t)))
 
   (setq org-agenda-files '("~/OneDrive/cone"))
