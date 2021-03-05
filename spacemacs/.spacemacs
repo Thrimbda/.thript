@@ -575,10 +575,14 @@ dump."
   (add-hook 'org-mode-hook '(lambda () (setq fill-column 72)))
   (add-hook 'org-mode-hook 'turn-on-auto-fill)
 
+  ;; key bindings
   (spacemacs/set-leader-keys "oh" 'helm-org-agenda-files-headings)
   (spacemacs/set-leader-keys "oi" 'bh/punch-in)
   (spacemacs/set-leader-keys "oo" 'bh/punch-out)
   (spacemacs/set-leader-keys "oc" 'bh/clock-in-last-task)
+
+  ;; Misc
+  (setq-default show-trailing-whitespace t)
 
   ;; Org reveal
   (setq org-re-reveal-root "file:///Users/thrimbda/Onedrive/cone/tools/reveal.js-4.1.0")
